@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'user/user.css' %}">
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+</head>
+
+<div class = "raw">
+    <div class = "col-12" >
+      <div class = "col-12 text-center">
+<h1><a href="{%  url 'home' %}">MOVIYAAAA</a></h1>
+<br><br>
+</div>
+
+<form method = "POST">
+  {% csrf_token %}
+  {% if login == False %}
+    <div class="content">로그인 또는 회원가입을 해주세요.</div>
+    <br><br><br><br><br><br>
+    
+    <a href="{%  url 'login' %}">
+        <button class="btn2" type="button">로그인</button>
+    </a>
+    
+    <br><br><br>
+    
+    <a href="{%  url 'register' %}">
+        <button class="btn1" type="button">회원가입</button>
+    </a>
+    
+    {% else %}
+    <p align="center">
+        <div class="text">
+        {{ username }} 님 안녕하세요!
+        </div>
+        <br><br>
+        <a href="{%  url 'logout' %}">
+            <input type="button" class="btn2" value="로그아웃">
+        </a>
+    </p>
+    <br><br><br>
+    {% if setting == True%}
+    <p align="center">
+        Selected Movie
+        <br><br><br>
+        <iframe src="{% url 'movview' %}?title={{title}}&original_title={{original_title}}&original_language={{original_language}}&poster_path={{poster_path}}" height="350" width="200" style="background-color: rgb(199, 199, 199);"></iframe>
+        <br><br><br>
+        Recommended
+    </p>
+    <br>
+    {% for movie in movie_list%}
+        <iframe src="{% url 'movview' %}?title={{movie.title}}&original_title={{movie.original_title}}&original_language={{movie.original_language}}&poster_path={{movie.poster_path}}" style="width:200px; height: 350px; background-color:rgb(199, 199, 199);float:left;text-align: center;"></iframe>
+        
+    {% endfor %}
+    <br><br><br>
+    {% else %}
+    <div class="text">
+    사용자 설정이 되어 있지 않습니다. {{username}} 님이 좋아하는 영화를 등록해 주세요.
+    </div>
+    <a href="{%  url 'searchmovie' %}">
+        <input type="button" class="btn-group2" value="영화 찾기">
+    </a>
+    {% endif %}
+    
+    {% endif %}
+</form>

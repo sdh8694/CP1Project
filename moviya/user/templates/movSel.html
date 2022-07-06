@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'user/user.css' %}">
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+</head>
+
+<div class = "raw">
+    <div class = "col-12" >
+      <div class = "col-12 text-center">
+<h1><a href="{%  url 'home' %}">MOVIYAAAA</a></h1>
+<br><br>
+</div>
+
+<form method = "POST">
+  {% csrf_token %}
+  <div class="box">
+    <div class="head">
+      <p>Select Movie to MOVIYAAAA</p>
+    </div>
+  </div>
+  자신이 찾는 영화를 선택해 주세요
+  <br><br><br>
+  <table border="1">
+    <th>영화</th>
+    <th>선택</th>
+      {% for movie in movies%}
+      <tr>
+        <td>
+          <div style="width:200px; height:320px; background-color:rgb(199, 199, 199)">
+            <iframe src="{% url 'movview' %}?title={{movie.title}}&original_title={{movie.original_title}}&original_language={{movie.original_language}}&poster_path={{movie.poster_path}}" height="320" width="200"></iframe>
+          </div>
+        </td>
+        <td>
+          <a href="{%  url 'movSmsg' %}?movie_id={{movie.id}}&title={{movie.title}}&original_title={{movie.original_title}}&original_language={{movie.original_language}}&poster_path={{movie.poster_path}}">
+            <input type="button" class="btn btn-outline-light" value="선택">
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+  </table>
+  <br><br><br>
+  <a href="{%  url 'searchmovie' %}">
+    <div class="btn-group">
+    <input type="button" value="다시 검색하기">
+    </div>
+  </a>
+  <br><br><br>
+</form>
